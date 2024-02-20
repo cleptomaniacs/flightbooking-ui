@@ -13,7 +13,7 @@ export const Guideline = ({ onSetIsGuideline }) => {
         <li>Number of booking tickets can not be more than 40</li>
       </ol>
       <button
-        className="btn btn-secondary px-4"
+        className="btn btn-primary px-4"
         onClick={() => onSetIsGuideline()}
       >
         Got It

@@ -1,19 +1,23 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { makeBooking } from "../features/booking/bookingSlice";
+import { useDispatch } from "react-redux";
 
 export const BookFlight = () => {
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const onFlightBooking = (data) => {
-    console.log(data);
+    dispatch(makeBooking(data));
+    document.getElementById("bookingForm").reset();
   };
   return (
     <div className="row justify-content-center">
       <div className="col-lg-5">
-        <form onSubmit={handleSubmit(onFlightBooking)}>
+        <form id="bookingForm" onSubmit={handleSubmit(onFlightBooking)}>
           <div className="form-group mb-3">
             <label className="form-label">Passenger name</label>
             <input

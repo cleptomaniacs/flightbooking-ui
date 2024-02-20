@@ -23,7 +23,7 @@ const Layout = () => {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav">
               <li className="nav-item">
-                <Link to={"/"} className="nav-link">
+                <Link to={"/booking"} className="nav-link">
                   Book Flight
                 </Link>
               </li>
