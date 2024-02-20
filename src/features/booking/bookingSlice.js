@@ -6,14 +6,8 @@ const url = "http://localhost:8000/api/bookings";
 export const makeBooking = createAsyncThunk(
   "booking/make-booking",
   async (data) => {
-    await axios
-      .post(url, data)
-      .then((response) => {
-        return response.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const response = await axios.post(url, data);
+    return response.data;
   }
 );
 
@@ -25,17 +19,19 @@ export const viewBookings = createAsyncThunk(
   }
 );
 
+export const viewSingleBooking = createAsyncThunk(
+  "booking/view-single-booking",
+  async (data) => {
+    const response = await axios.get(`${url}/${data}`);
+    return response.data;
+  }
+);
+
 export const deleteBooking = createAsyncThunk(
   "booking/delete-booking",
   async (data) => {
-    await axios
-      .delete(`${url}/${data}`)
-      .then((response) => {
-        return response.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const response = await axios.delete(`${url}/${data}`);
+    return response.data;
   }
 );
 
