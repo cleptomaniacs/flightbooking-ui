@@ -1,22 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { makeBooking } from "../features/booking/bookingSlice";
-import { useDispatch } from "react-redux";
+import { makeBooking, clearError } from "../features/booking/bookingSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { Loading } from "./components/Loading";
+import { Alert } from "./components/Alert";
 
 export const BookFlight = () => {
   const dispatch = useDispatch();
+  const { error, loading } = useSelector((state) => state.booking);
+
+  useEffect(() => {
+    dispatch(clearError());
+  }, [dispatch]);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
   const onFlightBooking = (data) => {
     dispatch(makeBooking(data));
-    document.getElementById("bookingForm").reset();
+    if (!loading && !error) {
+      document.getElementById("bookingForm").reset();
+    }
   };
   return (
     <div className="row justify-content-center">
       <div className="col-lg-5">
+        {loading && <Loading />}
+        {!loading && error && <Alert type={"danger"} message={error} />}
         <form id="bookingForm" onSubmit={handleSubmit(onFlightBooking)}>
           <div className="form-group mb-3">
             <label className="form-label">Passenger name</label>
@@ -67,7 +80,7 @@ export const BookFlight = () => {
               {...register("flightId", {
                 required: "Flight ID is required",
                 pattern: {
-                  value: /^[a-zA-Z]{3}-[0-9]{3}$/,
+                  value: /^[A-Z]{3}-[0-9]{3}$/,
                   message: "Invalid flight ID (e.g., ABC-123)",
                 },
               })}
