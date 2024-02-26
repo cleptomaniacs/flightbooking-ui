@@ -23,12 +23,18 @@ export const Table = ({ data, onDelete }) => {
               <td>{d.numberOfTickets}</td>
               <td>{d.amount}</td>
               <td>
-                <button
-                  className="btn btn-sm btn-outline-danger"
-                  onClick={() => onDelete(d._id)}
-                >
-                  <i className="fa fa-trash-o" aria-hidden="true"></i>
-                </button>
+                {d.amount > 6000 ? (
+                  <button
+                    className="btn btn-sm btn-outline-danger"
+                    onClick={() => onDelete(d._id)}
+                  >
+                    <i className="fa fa-trash-o" aria-hidden="true"></i> Delete
+                  </button>
+                ) : (
+                  <button className="btn btn-sm btn-outline-danger" disabled>
+                    <i className="fa fa-trash-o" aria-hidden="true"></i> Delete
+                  </button>
+                )}
               </td>
             </tr>
           ))}

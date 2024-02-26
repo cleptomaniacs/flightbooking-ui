@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
-export const Guideline = ({ onSetIsGuideline }) => {
+export const Guideline = () => {
+  const navigate = useNavigate();
   return (
     <div>
       <h2 className="text-center mb-4">Welcome to Flight Booking System!</h2>
@@ -14,7 +16,7 @@ export const Guideline = ({ onSetIsGuideline }) => {
       </ol>
       <button
         className="btn btn-primary px-4"
-        onClick={() => onSetIsGuideline()}
+        onClick={() => navigate("/booking")}
       >
         Got It
       </button>

@@ -1,14 +1,11 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { login, clearError } from "../features/auth/authSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { Loading } from "./components/Loading";
+import { useAuth } from "../hooks/AuthProvider";
 import { Alert } from "./components/Alert";
 
 export const Login = () => {
-  const dispatch = useDispatch();
-  const { error, loading } = useSelector((state) => state.auth);
+  const user = useAuth();
   const {
     register,
     handleSubmit,
@@ -16,20 +13,14 @@ export const Login = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    dispatch(login(data));
-    if (!loading && !error) {
-      clearError();
-      document.getElementById("form").reset();
-    }
+    user.login(data);
+    return;
   };
   return (
     <div className="row justify-content-center">
       <div className="col-lg-5">
-        {loading && <Loading />}
-        {!loading && error && (
-          <Alert type={"danger"} message={"Invalid credentials"} />
-        )}
         <h5> Sign in</h5>
+        {user.error && <Alert type={"danger"} message={user.error} />}
         <form id="form" onSubmit={handleSubmit(onSubmit)}>
           <div className="form-group mb-3">
             <label className="form-label">Username</label>

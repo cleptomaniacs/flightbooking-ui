@@ -4,8 +4,11 @@ import { makeBooking, clearError } from "../features/booking/bookingSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Loading } from "./components/Loading";
 import { Alert } from "./components/Alert";
+import { useAuth } from "../hooks/AuthProvider";
+import { Navigate } from "react-router-dom";
 
 export const BookFlight = () => {
+  const user = useAuth();
   const dispatch = useDispatch();
   const { error, loading } = useSelector((state) => state.booking);
 
@@ -25,6 +28,9 @@ export const BookFlight = () => {
       document.getElementById("bookingForm").reset();
     }
   };
+  if (!user.token) {
+    return <Navigate to={"/login"} />;
+  }
   return (
     <div className="row justify-content-center">
       <div className="col-lg-5">

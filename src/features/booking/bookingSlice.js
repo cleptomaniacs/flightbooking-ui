@@ -3,10 +3,16 @@ import axios from "axios";
 
 const url = "http://localhost:8000/api/bookings";
 
+const token = localStorage.getItem("token");
+
+const config = {
+  headers: { Authorization: `Bearer ${token}` },
+};
+
 export const makeBooking = createAsyncThunk(
   "booking/make-booking",
   async (data) => {
-    const response = await axios.post(url, data);
+    const response = await axios.post(url, data, config);
     return response.data;
   }
 );
@@ -14,7 +20,7 @@ export const makeBooking = createAsyncThunk(
 export const updateBooking = createAsyncThunk(
   "booking/update-booking",
   async (data) => {
-    const response = await axios.put(`${url}/${data._id}`, data);
+    const response = await axios.put(`${url}/${data._id}`, data, config);
     return response.data;
   }
 );
@@ -22,7 +28,7 @@ export const updateBooking = createAsyncThunk(
 export const viewBookings = createAsyncThunk(
   "booking/view-bookings",
   async () => {
-    const response = await axios.get(url);
+    const response = await axios.get(url, config);
     return response.data;
   }
 );
@@ -30,7 +36,7 @@ export const viewBookings = createAsyncThunk(
 export const viewSingleBooking = createAsyncThunk(
   "booking/view-single-booking",
   async (data) => {
-    const response = await axios.get(`${url}/${data}`);
+    const response = await axios.get(`${url}/${data}`, config);
     return response.data;
   }
 );
@@ -38,7 +44,7 @@ export const viewSingleBooking = createAsyncThunk(
 export const deleteBooking = createAsyncThunk(
   "booking/delete-booking",
   async (data) => {
-    const response = await axios.delete(`${url}/${data}`);
+    const response = await axios.delete(`${url}/${data}`, config);
     return response.data;
   }
 );
@@ -88,7 +94,6 @@ export const bookingSlice = createSlice({
       })
       .addCase(updateBooking.fulfilled, (state, action) => {
         let booking = action.payload;
-        //state.values.map(b=>b._id===booking._id?booking:b)
         state.loading = false;
         state.success = true;
         const index = state.values.findIndex(
